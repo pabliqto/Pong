@@ -75,7 +75,7 @@ static Vector2 GenerateRandomStartSpeed() {
     return (Vector2){(float)cos(angle), (float)sin(angle)};
 }
 
-static void RestartPosition() {
+static void SetPosition() {
     pause = true;
     ball.position = (Vector2){(float)screenWidth / 2, (float)screenHeight / 2};
     ball.speed = (Vector2){GenerateRandomStartSpeed().x * BALL_SPEED, GenerateRandomStartSpeed().y * BALL_SPEED};
@@ -94,7 +94,7 @@ static void InitGame(){
 
     bar2.color = RED;
 
-    RestartPosition();
+    SetPosition();
 }
 
 static void UpdateGame() {
@@ -122,6 +122,8 @@ static void UpdateGame() {
                 ball.speed.x = BALL_SPEED * cos(angle);
                 ball.speed.y = BALL_SPEED * sin(angle);
                 if (ball.speed.x < 0) ball.speed.x *= -1;
+                ball.speed.x *= 1.1f;
+                ball.speed.y *= 1.1f;
             }
 
             if (CheckCollisionCircleRec(ball.position, ball.radius, bar2.rect)) {
@@ -130,15 +132,17 @@ static void UpdateGame() {
                 ball.speed.x = BALL_SPEED * cos(angle);
                 ball.speed.y = BALL_SPEED * sin(angle);
                 if (ball.speed.x > 0) ball.speed.x *= -1;
+                ball.speed.x *= 1.1f;
+                ball.speed.y *= 1.1f;
             }
 
             if (ball.position.x >= screenWidth) {
                 player1.score++;
-                RestartPosition();
+                SetPosition();
             }
             if (ball.position.x <= 0) {
                 player2.score++;
-                RestartPosition();
+                SetPosition();
             }
         }
 
