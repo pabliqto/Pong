@@ -4,8 +4,8 @@
 #include <random>
 
 #define BALL_SIZE 20.0f
-#define BALL_SPEED 0.1f
-#define BAR_SPEED 0.05f
+#define BALL_SPEED 7.0f
+#define BAR_SPEED 4.0f
 #define BAR_WIDTH 20.0f
 #define BAR_HEIGHT 100.0f
 
@@ -46,7 +46,12 @@ static double GenerateRandomStartPosition();
 static Vector2 GenerateRandomStartSpeed();
 
 int main() {
+    SetTraceLogLevel(LOG_NONE);
     InitWindow(screenWidth, screenHeight, "Pong");
+    SetTargetFPS(60);
+    std::cout<<GetWorkingDirectory()<<std::endl;
+    Image icon = LoadImage("../image.png");
+    SetWindowIcon(icon);
     InitGame();
 
     while (!WindowShouldClose())
@@ -105,8 +110,6 @@ static void UpdateGame() {
             pause = !pause;
         }
 
-//        std::cout << "Ball motion: " << ball.speed.x << " " << ball.speed.y << std::endl;
-
         if (!pause) {
             ball.position.x += ball.speed.x;
             ball.position.y += ball.speed.y;
@@ -150,8 +153,6 @@ static void DrawGame(){
     DrawRectangle(screenWidth / 2 - 2, 0, 4, screenHeight, RAYWHITE);
     if (!gameOver){
         DrawCircleV(ball.position, ball.radius, ball.color);
-//        DrawRectangle(bar1.rect.x, bar1.rect.y, bar1.rect.width, bar1.rect.height, bar1.color);
-//        DrawRectangle(bar2.rect.x, bar2.rect.y, bar2.rect.width, bar2.rect.height, bar2.color);
         DrawRectangleRounded(bar1.rect, 2, 10, bar1.color);
         DrawRectangleRounded(bar2.rect, 2, 10, bar2.color);
         int score1Width = MeasureText(TextFormat("%i", player1.score), 40);
