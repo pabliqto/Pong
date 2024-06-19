@@ -1,10 +1,28 @@
-//
-// Created by ppode on 19.06.2024.
-//
-
 #ifndef PONG_MENU_H
 #define PONG_MENU_H
 
-int menu();
+enum GameMode {
+    ONE_PLAYER,
+    TWO_PLAYER
+};
 
-#endif //PONG_MENU_H
+enum MenuState {
+    START,
+    SETTINGS,
+    INFO,
+    PLAY
+};
+
+static const int screenWidth = 1000;
+static const int screenHeight = 500;
+
+static bool changingBars = false;
+static GameMode gameMode = ONE_PLAYER;
+static bool score = true;
+static int maxScore = 5;
+
+void drawMenu(MenuState *menuState);
+void drawSettings(MenuState *menuState);
+void drawInfo(MenuState *menuState);
+
+#endif // PONG_MENU_H

@@ -6,7 +6,7 @@
 
 #define BALL_SIZE 20.0f
 #define BALL_SPEED 7.0f
-#define BAR_SPEED 4.0f
+#define BAR_SPEED 3.0f
 #define BAR_WIDTH 20.0f
 #define BAR_HEIGHT 100.0f
 
@@ -26,10 +26,6 @@ typedef struct Player {
     int score;
 } Player;
 
-
-static const int screenWidth = 1000;
-static const int screenHeight = 500;
-
 static bool gameOver = false;
 static bool pause = true;
 static bool intro = true;
@@ -47,18 +43,35 @@ static double GenerateRandomStartPosition();
 static Vector2 GenerateRandomStartSpeed();
 
 int main() {
-    menu();
-    return 0;
     SetTraceLogLevel(LOG_NONE);
     InitWindow(screenWidth, screenHeight, "Pong");
     SetTargetFPS(60);
-    std::cout<<GetWorkingDirectory()<<std::endl;
     Image icon = LoadImage("../image.png");
     SetWindowIcon(icon);
-    InitGame();
 
-    while (!WindowShouldClose())
-        UpdateDrawFrame();
+    MenuState menuState = START;
+    while (!WindowShouldClose()) {
+        switch (menuState) {
+            case START:
+                drawMenu(&menuState);
+                break;
+            case SETTINGS:
+                drawSettings(&menuState);
+                break;
+            case INFO:
+                drawInfo(&menuState);
+                break;
+            case PLAY:
+                InitGame();
+                while (menuState == PLAY && !WindowShouldClose()) {
+                    UpdateDrawFrame();
+                    if (gameOver || IsKeyPressed(KEY_ESCAPE)) {
+                        menuState = START;
+                    }
+                }
+                break;
+        }
+    }
 
     CloseWindow();
     return 0;
@@ -87,7 +100,7 @@ static void SetPosition() {
     bar2.rect = (Rectangle){(float)screenWidth - BAR_WIDTH - 10, (float)screenHeight / 2 - BAR_HEIGHT / 2, BAR_WIDTH, BAR_HEIGHT};
 }
 
-static void InitGame(){
+static void InitGame() {
     pause = true;
 
     ball.radius = BALL_SIZE / 2;
@@ -152,13 +165,13 @@ static void UpdateGame() {
     }
 }
 
-static void DrawGame(){
+static void DrawGame() {
     BeginDrawing();
     ClearBackground(RAYWHITE);
     DrawRectangle(0, 0, screenWidth, screenHeight, (Color){173, 216, 230, 255});
     DrawRectangle(screenWidth / 2, 0, screenWidth / 2, screenHeight, (Color){255, 192, 203, 255});
     DrawRectangle(screenWidth / 2 - 2, 0, 4, screenHeight, RAYWHITE);
-    if (!gameOver){
+    if (!gameOver) {
         DrawCircleV(ball.position, ball.radius, ball.color);
         DrawRectangleRounded(bar1.rect, 2, 10, bar1.color);
         DrawRectangleRounded(bar2.rect, 2, 10, bar2.color);
@@ -176,7 +189,7 @@ static void DrawGame(){
     EndDrawing();
 }
 
-void UpdateDrawFrame(){
+void UpdateDrawFrame() {
     UpdateGame();
     DrawGame();
 }
