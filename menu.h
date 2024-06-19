@@ -16,13 +16,8 @@ enum MenuState {
 static const int screenWidth = 1000;
 static const int screenHeight = 500;
 
-static bool changingBars = false;
-static GameMode gameMode = ONE_PLAYER;
-static bool score = true;
-static int maxScore = 5;
-
-void drawMenu(MenuState *menuState);
-void drawSettings(MenuState *menuState);
+void drawMenu(MenuState *menuState, GameMode *gameMode);
+void drawSettings(MenuState *menuState, const GameMode *gameMode, int *maxScore, bool *changingBars, bool *score);
 void drawInfo(MenuState *menuState);
 
 #endif // PONG_MENU_H
