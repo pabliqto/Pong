@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cmath>
 #include <random>
+#include "menu.h"
 
 #define BALL_SIZE 20.0f
 #define BALL_SPEED 7.0f
@@ -46,6 +47,8 @@ static double GenerateRandomStartPosition();
 static Vector2 GenerateRandomStartSpeed();
 
 int main() {
+    menu();
+    return 0;
     SetTraceLogLevel(LOG_NONE);
     InitWindow(screenWidth, screenHeight, "Pong");
     SetTargetFPS(60);
