@@ -15,12 +15,12 @@ public:
     void drawMenu();
     void drawSettings();
     void drawInfo();
-    [[nodiscard]] MenuState getMenuState() const { return settings.menuState; };
-    void setMenuState(MenuState state) { settings.menuState = state; };
-    settings* getSettings() { return &settings; };
+    [[nodiscard]] MenuState getMenuState() const { return sett.menuState; };
+    void setMenuState(MenuState state) { sett.menuState = state; };
+    settings* getSettings() { return &sett; };
 
 private:
-    settings settings;
+    settings sett;
     Rectangle onePlayer;
     Rectangle twoPlayer;
     Rectangle info;

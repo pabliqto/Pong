@@ -33,7 +33,7 @@ private:
     Bar bar2;
     Player player1;
     Player player2;
-    settings* settings;
+    settings* sett;
 };
 
 

@@ -26,16 +26,16 @@ void Menu::drawMenu() {
              BLACK);
     GuiSetStyle(DEFAULT, TEXT_SIZE, 30);
     if (GuiButton(onePlayer, "One Player")) {
-        settings.gameMode = ONE_PLAYER;
-        settings.menuState = SETTINGS;
+        sett.gameMode = ONE_PLAYER;
+        sett.menuState = SETTINGS;
     }
     if (GuiButton(twoPlayer, "Two Player")) {
-        settings.gameMode = TWO_PLAYER;
-        settings.menuState = SETTINGS;
+        sett.gameMode = TWO_PLAYER;
+        sett.menuState = SETTINGS;
     }
 
     if (GuiButton(info, "Info")) {
-        settings.menuState = INFO;
+        sett.menuState = INFO;
     }
     EndDrawing();
 }
@@ -46,7 +46,7 @@ void Menu::drawSettings() {
     GuiSetStyle(DEFAULT, TEXT_SIZE, 30);
     DrawText("SETTINGS", screenWidth / 2 - MeasureText("SETTINGS", 40) / 2, 50,
              40, BLACK);
-    switch (settings.gameMode) {
+    switch (sett.gameMode) {
         case ONE_PLAYER:
             DrawText("One Player",
                      screenWidth / 2 - MeasureText("One Player", 20) / 2, 100, 20,
@@ -58,22 +58,22 @@ void Menu::drawSettings() {
                      BLACK);
             break;
     }
-    if (GuiCheckBox(checkBox, "Changing Bars", &settings.changingBars)) {
-        settings.changingBars = !settings.changingBars;
+    if (GuiCheckBox(checkBox, "Changing Bars", &sett.changingBars)) {
+        sett.changingBars = !sett.changingBars;
     }
-    if (GuiCheckBox(checkBox2, "Endless Game", &settings.score)) {
-        settings.score = !settings.score;
+    if (GuiCheckBox(checkBox2, "Endless Game", &sett.score)) {
+        sett.score = !sett.score;
     }
-    if (!settings.score) {
+    if (!sett.score) {
         DrawText("Max Score", screenWidth / 2 - MeasureText("Max Score", 30) / 2,
                  240, 30, DARKGRAY);
-        GuiSpinner(spinBox, nullptr, &settings.maxScore, 1, 100, false);
+        GuiSpinner(spinBox, nullptr, &sett.maxScore, 1, 100, false);
     }
     if (GuiButton(playButton, "Play")) {
-        settings.menuState = PLAY;
+        sett.menuState = PLAY;
     }
     if (GuiButton(backButton, "Back")) {
-        settings.menuState = START;
+        sett.menuState = START;
     }
     EndDrawing();
 }
@@ -114,7 +114,7 @@ void Menu::drawInfo() {
             MeasureText("Optional: Paddles shrink by 5% after each hit", 20) / 2,
             280, 20, BLACK);
     if (GuiButton(backButton2, "Back")) {
-        settings.menuState = START;
+        sett.menuState = START;
     }
     EndDrawing();
 }

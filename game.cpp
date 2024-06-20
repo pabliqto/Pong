@@ -10,7 +10,7 @@
 #define BAR_WIDTH 20.0f
 #define BAR_HEIGHT 100.0f
 
-Game::Game(struct settings* settings) : settings(settings){
+Game::Game(struct settings* sett) : sett(sett){
     gameOver = false;
     pause = true;
     intro = true;
@@ -88,7 +88,7 @@ void Game::checkCollision(int player) {
         if (player == 2) direction = true;
         ball.speed.x *= 1.1f;
         ball.speed.y *= 1.1f;
-        if (settings->changingBars && bar1.rect.height > 20) {
+        if (sett->changingBars && bar1.rect.height > 20) {
             float size = bar1.rect.height * 0.05f;
             bar1.rect.height *= 0.95f;
             bar1.rect.y += size / 2;
@@ -100,7 +100,7 @@ void Game::checkCollision(int player) {
 
 void Game::updateGame() {
     if (!gameOver) {
-        if (settings->gameMode == ONE_PLAYER) {
+        if (sett->gameMode == ONE_PLAYER) {
             if ((IsKeyDown(KEY_W) || IsKeyDown(KEY_UP)) && bar2.rect.y > 0)
                 bar2.rect.y -= BAR_SPEED;
             if ((IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN)) &&
@@ -151,7 +151,7 @@ void Game::updateGame() {
 
             if (ball.position.x >= screenWidth) {
                 player1.score++;
-                if (!settings->score && player1.score >= settings->maxScore) {
+                if (!sett->score && player1.score >= sett->maxScore) {
                     gameOver = true;
                     winner = 1;
                 }
@@ -159,7 +159,7 @@ void Game::updateGame() {
             }
             if (ball.position.x <= 0) {
                 player2.score++;
-                if (!settings->score && player2.score >= settings->maxScore) {
+                if (!sett->score && player2.score >= sett->maxScore) {
                     gameOver = true;
                     winner = 2;
                 }
