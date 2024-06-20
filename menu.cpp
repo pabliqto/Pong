@@ -5,47 +5,48 @@
 #define RAYGUI_IMPLEMENTATION
 #include "raygui.h"
 
-static Rectangle onePlayer = {(float)screenWidth / 2 - 100, 120, 200, 50};
-static Rectangle twoPlayer = {(float)screenWidth / 2 - 100, 200, 200, 50};
-static Rectangle info = {(float)screenWidth / 2 - 100, 300, 200, 50};
+Menu::Menu() {
+    onePlayer = {(float) screenWidth / 2 - 100, 120, 200, 50};
+    twoPlayer = {(float) screenWidth / 2 - 100, 200, 200, 50};
+    info = {(float) screenWidth / 2 - 100, 300, 200, 50};
 
-static Rectangle checkBox = {(float)screenWidth / 2 - 110, 160, 20, 20};
-static Rectangle checkBox2 = {(float)screenWidth / 2 - 100, 200, 20, 20};
-static Rectangle spinBox = {(float)screenWidth / 2 - 100, 270, 200, 50};
-static Rectangle playButton = {(float)screenWidth / 2 - 100, 340, 200, 50};
-static Rectangle backButton = {(float)screenWidth / 2 - 100, 410, 200, 50};
+    checkBox = {(float) screenWidth / 2 - 110, 160, 20, 20};
+    checkBox2 = {(float) screenWidth / 2 - 100, 200, 20, 20};
+    spinBox = {(float) screenWidth / 2 - 100, 270, 200, 50};
+    playButton = {(float) screenWidth / 2 - 100, 340, 200, 50};
+    backButton = {(float) screenWidth / 2 - 100, 410, 200, 50};
 
-static Rectangle backButton2 = {(float)screenWidth / 2 - 100, 390, 200, 50};
+    backButton2 = {(float) screenWidth / 2 - 100, 390, 200, 50};
+}
 
-void drawMenu(MenuState *menuState, GameMode *gameMode) {
+void Menu::drawMenu() {
     BeginDrawing();
     ClearBackground(RAYWHITE);
     DrawText("PONG", screenWidth / 2 - MeasureText("PONG", 40) / 2, 50, 40,
              BLACK);
     GuiSetStyle(DEFAULT, TEXT_SIZE, 30);
     if (GuiButton(onePlayer, "One Player")) {
-        *gameMode = ONE_PLAYER;
-        *menuState = SETTINGS;
+        settings.gameMode = ONE_PLAYER;
+        settings.menuState = SETTINGS;
     }
     if (GuiButton(twoPlayer, "Two Player")) {
-        *gameMode = TWO_PLAYER;
-        *menuState = SETTINGS;
+        settings.gameMode = TWO_PLAYER;
+        settings.menuState = SETTINGS;
     }
 
     if (GuiButton(info, "Info")) {
-        *menuState = INFO;
+        settings.menuState = INFO;
     }
     EndDrawing();
 }
 
-void drawSettings(MenuState *menuState, const GameMode *gameMode, int *maxScore,
-                  bool *changingBars, bool *score) {
+void Menu::drawSettings() {
     BeginDrawing();
     ClearBackground(RAYWHITE);
     GuiSetStyle(DEFAULT, TEXT_SIZE, 30);
     DrawText("SETTINGS", screenWidth / 2 - MeasureText("SETTINGS", 40) / 2, 50,
              40, BLACK);
-    switch (*gameMode) {
+    switch (settings.gameMode) {
         case ONE_PLAYER:
             DrawText("One Player",
                      screenWidth / 2 - MeasureText("One Player", 20) / 2, 100, 20,
@@ -57,27 +58,27 @@ void drawSettings(MenuState *menuState, const GameMode *gameMode, int *maxScore,
                      BLACK);
             break;
     }
-    if (GuiCheckBox(checkBox, "Changing Bars", changingBars)) {
-        *changingBars = !*changingBars;
+    if (GuiCheckBox(checkBox, "Changing Bars", &settings.changingBars)) {
+        settings.changingBars = !settings.changingBars;
     }
-    if (GuiCheckBox(checkBox2, "Endless Game", score)) {
-        *score = !*score;
+    if (GuiCheckBox(checkBox2, "Endless Game", &settings.score)) {
+        settings.score = !settings.score;
     }
-    if (!*score) {
+    if (!settings.score) {
         DrawText("Max Score", screenWidth / 2 - MeasureText("Max Score", 30) / 2,
                  240, 30, DARKGRAY);
-        GuiSpinner(spinBox, nullptr, maxScore, 1, 100, false);
+        GuiSpinner(spinBox, nullptr, &settings.maxScore, 1, 100, false);
     }
     if (GuiButton(playButton, "Play")) {
-        *menuState = PLAY;
+        settings.menuState = PLAY;
     }
     if (GuiButton(backButton, "Back")) {
-        *menuState = START;
+        settings.menuState = START;
     }
     EndDrawing();
 }
 
-void drawInfo(MenuState *menuState) {
+void Menu::drawInfo() {
     BeginDrawing();
     ClearBackground(RAYWHITE);
     DrawText("INFO", screenWidth / 2 - MeasureText("INFO", 40) / 2, 50, 40,
@@ -113,7 +114,7 @@ void drawInfo(MenuState *menuState) {
             MeasureText("Optional: Paddles shrink by 5% after each hit", 20) / 2,
             280, 20, BLACK);
     if (GuiButton(backButton2, "Back")) {
-        *menuState = START;
+        settings.menuState = START;
     }
     EndDrawing();
 }
