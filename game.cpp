@@ -3,7 +3,6 @@
 
 #include <cmath>
 #include <random>
-#include <iostream>
 
 #define BALL_SIZE 20.0f
 #define BALL_SPEED 7.0f
@@ -109,7 +108,6 @@ void Game::updateGame() {
                 bar2.rect.y += BAR_SPEED;
             if (direction) {
                 offset = GenerateRandomNumber(0, 1);
-                std::cout << offset << std::endl;
                 direction = !direction;
             }
             if (ball.speed.x < 0 && !pause) {
